@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+public class CardGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of players: ");
+        int N = scanner.nextInt();
+
+        int[] cards = new int[N];
+        System.out.println("Enter the numbers on the front face of the cards:");
+        for (int i = 0; i < N; i++) {
+            cards[i] = scanner.nextInt();
+        }
+
+        int maxSum = findMaxSum(cards);
+        System.out.println("Maximum sum of front face numbers: " + maxSum);
+    }
+
+    public static int findMaxSum(int[] cards) {
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0;
+
+        // Calculate the sum of the front face numbers without flipping any cards
+        for (int i = 0; i < cards.length; i++) {
+            currentSum += cards[i];
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+            }
+            if (currentSum < 0) {
+                currentSum = 0;
+            }
+        }
+
+        // Calculate the sum of the front face numbers after flipping one or more cards
+        int totalSum = 0;
+        for (int i = 0; i < cards.length; i++) {
+            totalSum += cards[i];
+            cards[i] = -cards[i]; // Flip the card
+            currentSum = 0;
+            for (int j = 0; j < cards.length; j++) {
+                currentSum += cards[j];
+                if (currentSum > maxSum) {
+                    maxSum = currentSum;
+                }
+                if (currentSum < 0) {
+                    currentSum = 0;
+                }
+            }
+            cards[i] = -cards[i]; // Flip the card back to its original state
+        }
+
+        return Math.max(maxSum, totalSum);
+    }
+}

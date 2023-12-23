@@ -1,0 +1,102 @@
+import java.util.*;
+import java.lang.Math;
+
+class metrix3By3HappyNum
+{
+	public static int happy(int num)
+	{
+		int sum=0,rem,sq;
+        while(num>0)
+        {
+            rem = num%10;
+            num=num/10;
+            sq = (int)Math.pow(rem,2);
+            sum = sum+sq;
+        }
+        return sum;
+	}
+	public static int isHappy(int num)
+	{
+		int s;
+		while(true){
+		    s = happy(num);
+		    if(s==1)
+		    {
+				return 1;
+		        //System.out.println(t+" is happy number");
+		        //break; //if sum reaches to 1 then it is happy nymber.
+		    }
+		    else{
+		        num=s;
+		    }
+		   if(s!=1 && s!=7 && s<=9)	
+		   {
+			   return 0;
+		       //System.out.println(t+" is UNHappy number");
+		       //break; // if sum reaches to 2,3,4,5,6,8,9 except 1 and 7, then it is UnHappy number.
+		   }
+		}
+	}
+	
+	public static int subMetrixhppycount(int[][] sm, int rs, int cs,int re, int ce)
+	{
+		int[][] smtx = new int[3][3];
+		int ishppy,count=0;
+		for (int i=rs;i<=re;i++)
+		{
+			for(int j = cs;j<=ce;j++)
+			{
+				smtx[i][j] = sm[i][j];
+				ishppy = isHappy(smtx[i][j]);
+				if(ishppy==1)
+				{
+					count++;
+				}
+			}
+		}
+		
+		return count;
+	}
+		
+	public static void main(String[] args)
+	{
+		int n,m,l,i,j=0,a,maxcnt=-1;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("enter the metrix length, for m,n");
+		m = sc.nextInt();
+		n = sc.nextInt();
+		int[][] mtx = new int[n][n];
+		int[][] submtx = new int[3][3];
+		System.out.println("enter the metrix");
+		for(i=0;i<m;i++)
+		{
+			for(j =0;j<n;j++)
+			{
+				mtx[i][j] = sc.nextInt();
+			}
+		}
+		
+		for(i =0;i<=m;i++)
+		{
+			for(j = 0;j<=n;j++)
+			{
+				l = subMetrixhppycount(mtx, i,j,i+2,j+2);
+				if(l>maxcnt)
+				{
+					maxcnt = l;
+				}
+			}
+		}
+		for(int x=i;x<i+2;x++)
+		{
+			for(int y=j;y<j+2;y++)
+			{
+				System.out.println(mtx[x][y]);
+			}
+			System.out.println();
+		}
+		
+	}
+}
+		
+				
